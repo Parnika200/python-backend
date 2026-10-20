@@ -54,8 +54,18 @@ def create(std:student):
 
 
 #CRUD
-
+todo=[]
 class Todo(BaseModel):
     id:int
     title:str
     completed:bool
+
+@app.post("/addtodo")
+def addtodo(new_todo:Todo):
+    todo.append(new_todo)
+    return {"message":"todo added","data":new_todo}
+
+@app.get("/addtodo")
+def seetodo():
+    return todo
+
