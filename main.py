@@ -65,7 +65,25 @@ def addtodo(new_todo:Todo):
     todo.append(new_todo)
     return {"message":"todo added","data":new_todo}
 
+#DYNAMIC 
+@app.get("/todos/{todo_id}")
+def todos(todo_id:int):
+    for t in todo:
+        if t.id==todo_id:
+            return t
+    return {"error":"not found"}
+
 @app.get("/addtodo")
 def seetodo():
     return todo
+
+@app.put("/todos/{todo_id}")
+def todos(todo_id:int,updated:Todo):
+    for t in todo:
+        if t.id==todo_id:
+            t.id=updated.id
+            t.title=updated.title
+            t.completed=updated.completed
+            return {"message":"updated","data":updated}
+    return {"error":"error"}
 
