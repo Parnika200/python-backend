@@ -1,4 +1,10 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
+
+class student(BaseModel):
+    name:str
+    age:int
+    email:str
 
 app=FastAPI() #server
 
@@ -26,9 +32,30 @@ def customer(c_id:int): # only accepts int parameter
 
 
 #QUERY PARAMS
-
+"""
 @app.get("/product")
 def prod(name : str=None): #default parameter
-    return {"name":name}
+    return {"name":name}"""
+
+@app.get("/product")
+def prod(name:str=None,price:int=10):
+    return{
+        "name":name,
+        "price":price
+    }
 
 # POST REQUEST
+
+@app.post("/create-user")
+def create(std:student):
+    return {
+        "student":std
+    }
+
+
+#CRUD
+
+class Todo(BaseModel):
+    id:int
+    title:str
+    completed:bool
