@@ -87,3 +87,10 @@ def todos(todo_id:int,updated:Todo):
             return {"message":"updated","data":updated}
     return {"error":"error"}
 
+@app.delete("/todos/{todo_id}")
+def todos(todo_id:int):
+    for t in todo:
+        if t.id==todo_id:
+            todo.pop(t)
+        return {"message":"delete"}
+    return {"message":"error"}
