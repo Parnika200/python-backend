@@ -8,6 +8,7 @@ class student(BaseModel):
 
 app=FastAPI() #server
 
+"""
 @app.get("/")
 def home():
     return {"message":"hello"}
@@ -30,12 +31,12 @@ def student(s_id):
 def customer(c_id:int): # only accepts int parameter
     return {"id":c_id}
 
-
+"""
 #QUERY PARAMS
 """
 @app.get("/product")
 def prod(name : str=None): #default parameter
-    return {"name":name}"""
+    return {"name":name}
 
 @app.get("/product")
 def prod(name:str=None,price:int=10):
@@ -51,7 +52,7 @@ def create(std:student):
     return {
         "student":std
     }
-
+"""
 
 #CRUD
 todo=[]
@@ -94,3 +95,44 @@ def todos(todo_id:int):
             todo.pop(t)
         return {"message":"delete"}
     return {"message":"error"}
+
+
+#
+users=[]
+
+#main class
+class User(BaseModel):
+    name:str
+    age:int
+    password:int
+
+# response model
+class UserResponse(BaseModel):
+    name:str
+    age:int
+
+@app.post("/create")
+def create(user:User):
+    users.append(user)
+    return {"message","user created"}
+
+@app.get("/users",response_model=UserResponse)
+def getUsers():
+    return{
+        "name":'anna',
+        "age":20,
+        "password":"124"
+    }
+
+
+@app.put("/create/{user_id}")
+def update(user_id:int,user:User,notify:bool=False):
+    if user_id<len(users):
+        users[user_id]=user
+
+        return{
+            "message":"updated",
+            "notify":notify,
+            "data":user
+        }
+    return {"error":"not found"}
